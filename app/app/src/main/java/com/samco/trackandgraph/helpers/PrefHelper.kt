@@ -54,6 +54,7 @@ interface PrefHelper {
 
     @Serializable
     enum class BackupConfigUnit {
+        MINUTES,
         HOURS,
         DAYS,
         WEEKS
@@ -76,6 +77,30 @@ interface PrefHelper {
     fun setLastAutoBackupTime(time: OffsetDateTime)
 
     fun getLastAutoBackupTime(): OffsetDateTime?
+
+    fun setThingsboardBaseUrl(baseUrl: String?)
+
+    fun getThingsboardBaseUrl(): String?
+
+    fun setThingsboardGlobalApiToken(apiToken: String?)
+
+    fun getThingsboardGlobalApiToken(): String?
+
+    @Serializable
+    data class ThingsboardAutoSyncConfigData(
+        @Serializable(with = OffsetDateTimeSerializer::class)
+        val firstDate: OffsetDateTime,
+        val interval: Int,
+        val units: BackupConfigUnit
+    )
+
+    fun setThingsboardAutoSyncConfig(syncConfig: ThingsboardAutoSyncConfigData?)
+
+    fun getThingsboardAutoSyncConfig(): ThingsboardAutoSyncConfigData?
+
+    fun setLastThingsboardSyncTime(time: OffsetDateTime)
+
+    fun getLastThingsboardSyncTime(): OffsetDateTime?
 }
 
 const val THEME_SETTING_PREF_KEY = "theme_setting"
@@ -84,6 +109,10 @@ const val FIRST_RUN_PREF_KEY = "firstrun2"
 const val HIDE_DATA_POINT_TUTORIAL_PREF_KEY = "HIDE_DATA_POINT_TUTORIAL_PREF_KEY"
 const val AUTO_BACKUP_CONFIG_PREF_KEY = "auto_backup_config"
 const val LAST_AUTO_BACKUP_TIME_PREF_KEY = "last_auto_backup_time"
+const val THINGSBOARD_BASE_URL_PREF_KEY = "thingsboard_base_url"
+const val THINGSBOARD_API_TOKEN_PREF_KEY = "thingsboard_api_token"
+const val AUTO_THINGSBOARD_SYNC_CONFIG_PREF_KEY = "auto_thingsboard_sync_config"
+const val LAST_THINGSBOARD_SYNC_TIME_PREF_KEY = "last_thingsboard_sync_time"
 
 fun getPrefs(context: Context, mode: Int = AppCompatActivity.MODE_PRIVATE): SharedPreferences {
     return context.getSharedPreferences("com.samco.trackandgraph", mode)
@@ -160,6 +189,49 @@ class PrefHelperImpl @Inject constructor(
 
     override fun getLastAutoBackupTime(): OffsetDateTime? {
         return prefs.getString(LAST_AUTO_BACKUP_TIME_PREF_KEY, null)?.let {
+            OffsetDateTime.parse(it)
+        }
+    }
+
+    override fun setThingsboardBaseUrl(baseUrl: String?) {
+        prefs.edit { putString(THINGSBOARD_BASE_URL_PREF_KEY, baseUrl) }
+    }
+
+    override fun getThingsboardBaseUrl(): String? =
+        prefs.getString(THINGSBOARD_BASE_URL_PREF_KEY, null)
+
+    override fun setThingsboardGlobalApiToken(apiToken: String?) {
+        prefs.edit { putString(THINGSBOARD_API_TOKEN_PREF_KEY, apiToken) }
+    }
+
+    override fun getThingsboardGlobalApiToken(): String? =
+        prefs.getString(THINGSBOARD_API_TOKEN_PREF_KEY, null)
+
+    override fun setThingsboardAutoSyncConfig(syncConfig: PrefHelper.ThingsboardAutoSyncConfigData?) {
+        if (syncConfig == null) {
+            prefs.edit { remove(AUTO_THINGSBOARD_SYNC_CONFIG_PREF_KEY) }
+        } else {
+            prefs.edit {
+                putString(
+                    AUTO_THINGSBOARD_SYNC_CONFIG_PREF_KEY,
+                    json.encodeToString(syncConfig)
+                )
+            }
+        }
+    }
+
+    override fun getThingsboardAutoSyncConfig(): PrefHelper.ThingsboardAutoSyncConfigData? {
+        return prefs.getString(AUTO_THINGSBOARD_SYNC_CONFIG_PREF_KEY, null)?.let {
+            json.decodeFromString<PrefHelper.ThingsboardAutoSyncConfigData>(it)
+        }
+    }
+
+    override fun setLastThingsboardSyncTime(time: OffsetDateTime) {
+        prefs.edit { putString(LAST_THINGSBOARD_SYNC_TIME_PREF_KEY, time.toString()) }
+    }
+
+    override fun getLastThingsboardSyncTime(): OffsetDateTime? {
+        return prefs.getString(LAST_THINGSBOARD_SYNC_TIME_PREF_KEY, null)?.let {
             OffsetDateTime.parse(it)
         }
     }

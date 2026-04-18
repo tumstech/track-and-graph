@@ -45,6 +45,7 @@ interface AddTrackerViewModel : DurationInputViewModel {
     val hasDefaultValue: LiveData<Boolean>
     val defaultValue: TextFieldValue
     val defaultLabel: TextFieldValue
+    val thingsboardDeviceApiKey: TextFieldValue
     val createButtonEnabled: LiveData<Boolean>
     val errorText: LiveData<Int?>
     val durationNumericConversionMode: LiveData<TrackerHelper.DurationNumericConversionMode>
@@ -62,6 +63,7 @@ interface AddTrackerViewModel : DurationInputViewModel {
     fun onHasDefaultValueChanged(hasDefaultValue: Boolean)
     fun onDefaultValueChanged(defaultValue: TextFieldValue)
     fun onDefaultLabelChanged(defaultLabel: TextFieldValue)
+    fun onDeviceApiKeyChanged(deviceApiKey: TextFieldValue)
     fun onDurationNumericConversionModeChanged(durationNumericConversionMode: TrackerHelper.DurationNumericConversionMode)
     fun onConfirmUpdate()
     fun onDismissUpdateWarningCancel()
@@ -94,6 +96,7 @@ class AddTrackerViewModelImpl @Inject constructor(
     override val hasDefaultValue = MutableLiveData(false)
     override var defaultValue by mutableStateOf(TextFieldValue("1.0", TextRange(0, 3)))
     override var defaultLabel by mutableStateOf(TextFieldValue())
+    override var thingsboardDeviceApiKey by mutableStateOf(TextFieldValue())
     override val isDuration = isDurationModeFlow
         .asLiveData(viewModelScope.coroutineContext)
     override val isUpdateMode: LiveData<Boolean> =
@@ -177,6 +180,7 @@ class AddTrackerViewModelImpl @Inject constructor(
         else defaultValue = TextFieldValue(defaultValueStr, TextRange(defaultValueStr.length))
 
         defaultLabel = TextFieldValue(tracker.defaultLabel, TextRange(tracker.defaultLabel.length))
+        thingsboardDeviceApiKey = TextFieldValue(tracker.thingsboardDeviceApiKey.orEmpty(), TextRange(tracker.thingsboardDeviceApiKey?.length ?: 0))
         suggestionType.value = tracker.suggestionType
         suggestionOrder.value = tracker.suggestionOrder
         isUpdateModeFlow.value = true
@@ -196,6 +200,10 @@ class AddTrackerViewModelImpl @Inject constructor(
 
     override fun onDefaultLabelChanged(defaultLabel: TextFieldValue) {
         this.defaultLabel = defaultLabel
+    }
+
+    override fun onDeviceApiKeyChanged(deviceApiKey: TextFieldValue) {
+        this.thingsboardDeviceApiKey = deviceApiKey
     }
 
     override fun onDurationNumericConversionModeChanged(durationNumericConversionMode: TrackerHelper.DurationNumericConversionMode) {
@@ -258,6 +266,7 @@ class AddTrackerViewModelImpl @Inject constructor(
             defaultValue = getDefaultValue() ?: 1.0,
             description = trackerDescription.text,
             defaultLabel = defaultLabel.text,
+            thingsboardDeviceApiKey = thingsboardDeviceApiKey.text.ifBlank { null },
             suggestionType = suggestionType.value,
             suggestionOrder = suggestionOrder.value
         )
@@ -274,6 +283,7 @@ class AddTrackerViewModelImpl @Inject constructor(
             hasDefaultValue = hasDefaultValue.value ?: false,
             defaultValue = getDefaultValue() ?: 1.0,
             defaultLabel = defaultLabel.text,
+            thingsboardDeviceApiKey = thingsboardDeviceApiKey.text.ifBlank { null },
             suggestionType = suggestionType.value ?: TrackerSuggestionType.VALUE_AND_LABEL,
             suggestionOrder = suggestionOrder.value ?: TrackerSuggestionOrder.VALUE_ASCENDING
         )

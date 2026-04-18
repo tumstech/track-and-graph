@@ -30,6 +30,9 @@ internal data class TrackerWithFeature(
     @ColumnInfo(name = "default_label")
     val defaultLabel: String,
 
+    @ColumnInfo(name = "thingsboard_api_key")
+    val thingsboardDeviceApiKey: String?,
+
     @ColumnInfo(name = "suggestion_type")
     val suggestionType: TrackerSuggestionType,
 

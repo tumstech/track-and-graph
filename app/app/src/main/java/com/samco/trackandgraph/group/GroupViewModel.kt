@@ -35,6 +35,7 @@ import com.samco.trackandgraph.data.di.IODispatcher
 import com.samco.trackandgraph.data.di.MainDispatcher
 import com.samco.trackandgraph.graphstatproviders.GraphStatInteractorProvider
 import com.samco.trackandgraph.graphstatview.factories.viewdto.IGraphStatViewData
+import com.samco.trackandgraph.thingsboard.ThingsboardSyncInteractor
 import com.samco.trackandgraph.timers.TimerServiceInteractor
 import com.samco.trackandgraph.util.Stopwatch
 import com.samco.trackandgraph.util.debounceBuffer
@@ -110,6 +111,7 @@ interface GroupViewModel {
     fun onConsumedShowDurationInputDialog()
     fun stopTimer(tracker: DisplayTracker)
     fun playTimer(tracker: DisplayTracker)
+    fun syncTracker(tracker: DisplayTracker)
 
     fun onDragStart()
     fun onDragSwap(from: Int, to: Int)
@@ -121,6 +123,7 @@ class GroupViewModelImpl @Inject constructor(
     private val dataInteractor: DataInteractor,
     private val gsiProvider: GraphStatInteractorProvider,
     private val timerServiceInteractor: TimerServiceInteractor,
+    private val thingsboardSyncInteractor: ThingsboardSyncInteractor,
     @IODispatcher private val io: CoroutineDispatcher,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     @MainDispatcher private val ui: CoroutineDispatcher
@@ -522,6 +525,12 @@ class GroupViewModelImpl @Inject constructor(
             dataInteractor.playTimerForTracker(tracker.id)
             timerServiceInteractor.startTimerNotificationService()
             timerServiceInteractor.requestWidgetUpdatesForFeatureId(tracker.featureId)
+        }
+    }
+
+    override fun syncTracker(tracker: DisplayTracker) {
+        viewModelScope.launch(io) {
+            thingsboardSyncInteractor.syncTracker(tracker.id)
         }
     }
 

@@ -53,6 +53,7 @@ import androidx.navigation3.runtime.NavKey
 import com.samco.trackandgraph.R
 import com.samco.trackandgraph.aboutpage.AboutNavKey
 import com.samco.trackandgraph.backupandrestore.BackupAndRestoreNavKey
+import com.samco.trackandgraph.thingsboard.ThingsboardSettingsNavKey
 import com.samco.trackandgraph.group.GroupNavKey
 import com.samco.trackandgraph.notes.NotesNavKey
 import com.samco.trackandgraph.reminders.ui.RemindersNavKey
@@ -118,6 +119,11 @@ fun MenuDrawerContent(
             title = stringResource(R.string.backup_and_restore),
             icon = painterResource(R.drawable.backup_restore_icon)
         ) { onNavigate(BackupAndRestoreNavKey) }
+
+        MenuItem(
+            title = stringResource(R.string.thingsboard_settings),
+            icon = painterResource(R.drawable.backup_restore_icon)
+        ) { onNavigate(ThingsboardSettingsNavKey) }
 
         Divider(
             modifier = Modifier.padding(vertical = inputSpacingLarge / 2)

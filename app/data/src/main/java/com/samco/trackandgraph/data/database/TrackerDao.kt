@@ -87,6 +87,8 @@ internal interface TrackerDao {
 
     fun getDataPointsForFeatureSync(featureId: Long): List<DataPoint>
 
+    fun getLatestDataPointForFeatureSync(featureId: Long): DataPoint?
+
     fun getDataPointByTimestampAndFeatureSync(featureId: Long, epochMilli: Long): DataPoint?
 
     fun getDataPointCount(featureId: Long): Int

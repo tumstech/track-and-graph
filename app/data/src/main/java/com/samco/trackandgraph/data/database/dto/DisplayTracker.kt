@@ -32,4 +32,5 @@ data class DisplayTracker(
     val description: String,
     val timerStartInstant: Instant?,
     val unique: Boolean,
+    val thingsboardDeviceApiKey: String? = null,
 )

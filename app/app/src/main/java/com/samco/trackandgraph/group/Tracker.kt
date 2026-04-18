@@ -57,6 +57,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.samco.trackandgraph.R
@@ -95,6 +97,7 @@ fun Tracker(
     onHistory: (DisplayTracker) -> Unit,
     onPlayTimer: (DisplayTracker) -> Unit,
     onStopTimer: (DisplayTracker) -> Unit,
+    onSync: (DisplayTracker) -> Unit = {},
 ) = Box(modifier = modifier.fillMaxWidth()) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -196,7 +199,8 @@ fun Tracker(
                     rippleRadius = rippleRadius,
                     onPlayTimer = onPlayTimer,
                     onStopTimer = onStopTimer,
-                    onAdd = onAdd
+                    onAdd = onAdd,
+                    onSync = onSync
                 )
             }
         }
@@ -214,6 +218,7 @@ private fun TrackerMenuButton(
     onMoveTo: (DisplayTracker) -> Unit,
     onDescription: (DisplayTracker) -> Unit,
     onSymlinks: (DisplayTracker) -> Unit,
+    onSync: (DisplayTracker) -> Unit = {},
 ) {
     Box(
         modifier = modifier.size(buttonSize)
@@ -332,7 +337,8 @@ private fun TrackerButtonsArea(
     rippleRadius: Dp,
     onPlayTimer: (DisplayTracker) -> Unit,
     onStopTimer: (DisplayTracker) -> Unit,
-    onAdd: (DisplayTracker, Boolean) -> Unit
+    onAdd: (DisplayTracker, Boolean) -> Unit,
+    onSync: (DisplayTracker) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -367,6 +373,20 @@ private fun TrackerButtonsArea(
             ripple(
                 bounded = false,
                 radius = rippleRadius
+            )
+        }
+
+        // Sync button (positioned to the left of add button)
+        IconButton(
+            modifier = Modifier
+                .size(buttonSize)
+                .align(Alignment.BottomStart),
+            onClick = { onSync(tracker) }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Refresh,
+                contentDescription = stringResource(R.string.sync_tracker_to_thingsboard),
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
 

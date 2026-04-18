@@ -68,6 +68,9 @@ internal data class Tracker(
     @ColumnInfo(name = "default_label")
     val defaultLabel: String,
 
+    @ColumnInfo(name = "thingsboard_api_key")
+    val thingsboardApiKey: String? = null,
+
     @ColumnInfo(name = "suggestion_type")
     val suggestionType: TrackerSuggestionType,
 

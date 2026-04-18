@@ -62,6 +62,7 @@ private const val getTrackersQuery = """
         trackers_table.has_default_value as has_default_value,
         trackers_table.default_value as default_value,
         trackers_table.default_label as default_label,
+        trackers_table.thingsboard_api_key as thingsboard_api_key,
         trackers_table.suggestion_type as suggestion_type,
         trackers_table.suggestion_order as suggestion_order
     FROM trackers_table
@@ -78,6 +79,7 @@ private const val getDisplayTrackersQuery = """
         trackers_table.has_default_value as has_default_value,
         trackers_table.default_value as default_value,
         trackers_table.default_label as default_label,
+        trackers_table.thingsboard_api_key as thingsboard_api_key,
         last_epoch_milli,
         last_utc_offset_sec,
         start_instant
@@ -232,6 +234,9 @@ internal interface TrackAndGraphDatabaseDao : GraphDao, ReminderDao, GroupDao, T
 
     @Query("SELECT * FROM data_points_table WHERE feature_id = :featureId ORDER BY epoch_milli DESC")
     override fun getDataPointsForFeatureSync(featureId: Long): List<DataPoint>
+
+    @Query("SELECT * FROM data_points_table WHERE feature_id = :featureId ORDER BY epoch_milli DESC LIMIT 1")
+    override fun getLatestDataPointForFeatureSync(featureId: Long): DataPoint?
 
     @Query("SELECT * FROM data_points_table WHERE feature_id = :featureId AND epoch_milli = :epochMilli")
     override fun getDataPointByTimestampAndFeatureSync(featureId: Long, epochMilli: Long): DataPoint?

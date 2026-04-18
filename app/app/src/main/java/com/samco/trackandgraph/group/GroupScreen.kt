@@ -174,7 +174,8 @@ data class TrackerClickListeners(
     val onAdd: (DisplayTracker, Boolean) -> Unit = { _, _ -> },
     val onHistory: (DisplayTracker) -> Unit = {},
     val onPlayTimer: (DisplayTracker) -> Unit = {},
-    val onStopTimer: (DisplayTracker) -> Unit = {}
+    val onStopTimer: (DisplayTracker) -> Unit = {},
+    val onSync: (DisplayTracker) -> Unit = {}
 )
 
 data class GraphStatClickListeners(
@@ -278,7 +279,10 @@ private fun GroupScreenContent(
                 groupViewModel.playTimer(tracker)
                 requestNotificationPermission()
             },
-            onStopTimer = { groupViewModel.stopTimer(it) }
+            onStopTimer = { groupViewModel.stopTimer(it) },
+            onSync = { tracker ->
+                groupViewModel.syncTracker(tracker)
+            }
         ),
         graphStatClickListeners = GraphStatClickListeners(
             onEdit = onGraphStatEdit,
@@ -574,6 +578,7 @@ private fun GroupGrid(
                             clickListeners = trackerClickListeners,
                             onDelete = { onDeleteItem(item.groupItemId, DeleteType.TRACKER, it.unique) },
                             onMoveTo = { onMoveItem(item.groupItemId, emptySet()) },
+                            onSync = { trackerClickListeners.onSync(it) },
                             isElevated = isDragging,
                         )
                     }
@@ -622,6 +627,7 @@ private fun ReorderableCollectionItemScope.TrackerItem(
     clickListeners: TrackerClickListeners,
     onDelete: (DisplayTracker) -> Unit,
     onMoveTo: (DisplayTracker) -> Unit,
+    onSync: (DisplayTracker) -> Unit,
     isElevated: Boolean,
 ) = Tracker(
     modifier = Modifier.longPressDraggableHandle(),
@@ -635,7 +641,8 @@ private fun ReorderableCollectionItemScope.TrackerItem(
     onAdd = { t, useDefault -> clickListeners.onAdd(t, useDefault) },
     onHistory = { clickListeners.onHistory(it) },
     onPlayTimer = { clickListeners.onPlayTimer(it) },
-    onStopTimer = { clickListeners.onStopTimer(it) }
+    onStopTimer = { clickListeners.onStopTimer(it) },
+    onSync = onSync
 )
 
 @Composable

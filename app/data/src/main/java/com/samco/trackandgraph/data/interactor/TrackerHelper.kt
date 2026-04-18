@@ -82,6 +82,8 @@ interface TrackerHelper {
         timestamp: OffsetDateTime
     ): DataPoint?
 
+    suspend fun getLatestDataPointForTrackerSync(trackerId: Long): DataPoint?
+
     /**
      * Returns the feature id of the started timer tracker
      */

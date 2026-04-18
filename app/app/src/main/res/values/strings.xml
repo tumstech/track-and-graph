@@ -282,6 +282,8 @@
     <string name="theme_colon">Theme:</string>
     <string name="date_format_colon">Date format:</string>
     <string name="add_data_point_button_content_description">Add a data point button</string>
+    <string name="sync_tracker_to_thingsboard">Sync tracker to Thingsboard</string>
+    <string name="thingsboard_device_api_key">Thingsboard Device API Key</string>
     <string name="tracked_data_menu_button_content_description">Tracked data menu button</string>
     <string name="tracked_data_history_button_content_description">Tracked data history button</string>
     <string name="delete_line_button_content_description">Delete line button</string>
@@ -531,4 +533,13 @@
     <string name="release_notes_maybe_later">Maybe Later</string>
     <string name="release_notes_support_development">Donate to Support Development</string>
     <string name="release_notes_thank_you"><![CDATA[Thank You! ❤️\n\nEvery bit of support goes toward making Track & Graph better for everyone 🌱]]></string>
+    <string name="thingsboard_settings">Thingsboard Settings</string>
+    <string name="thingsboard_connector_config">Thingsboard Connector Configuration</string>
+    <string name="thingsboard_base_url">Base URL (e.g., https://demo.thingsboard.io)</string>
+    <string name="thingsboard_api_token">Global API Token</string>
+    <string name="thingsboard_auto_sync">Auto-Sync Configuration</string>
+    <string name="enable_auto_sync">Enable automatic sync to Thingsboard</string>
+    <string name="thingsboard_sync_interval_minutes">Sync Interval (minutes)</string>
+    <string name="save">Save</string>
+    <string name="settings_saved">Settings saved</string>
 </resources>

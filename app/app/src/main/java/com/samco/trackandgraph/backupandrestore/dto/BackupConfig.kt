@@ -14,6 +14,7 @@ data class BackupConfig(
     companion object {
         private fun chronoUnitToPrefUnit(chronoUnit: ChronoUnit): PrefHelper.BackupConfigUnit =
             when (chronoUnit) {
+                ChronoUnit.MINUTES -> PrefHelper.BackupConfigUnit.MINUTES
                 ChronoUnit.HOURS -> PrefHelper.BackupConfigUnit.HOURS
                 ChronoUnit.DAYS -> PrefHelper.BackupConfigUnit.DAYS
                 ChronoUnit.WEEKS -> PrefHelper.BackupConfigUnit.WEEKS
@@ -22,6 +23,7 @@ data class BackupConfig(
 
         private fun prefUnitToChronoUnit(prefUnit: PrefHelper.BackupConfigUnit): ChronoUnit =
             when (prefUnit) {
+                PrefHelper.BackupConfigUnit.MINUTES -> ChronoUnit.MINUTES
                 PrefHelper.BackupConfigUnit.HOURS -> ChronoUnit.HOURS
                 PrefHelper.BackupConfigUnit.DAYS -> ChronoUnit.DAYS
                 PrefHelper.BackupConfigUnit.WEEKS -> ChronoUnit.WEEKS

@@ -38,6 +38,8 @@ import com.samco.trackandgraph.addtracker.AddTrackerNavKey
 import com.samco.trackandgraph.addtracker.AddTrackerScreen
 import com.samco.trackandgraph.backupandrestore.BackupAndRestoreNavKey
 import com.samco.trackandgraph.backupandrestore.BackupAndRestoreScreen
+import com.samco.trackandgraph.thingsboard.ThingsboardSettingsNavKey
+import com.samco.trackandgraph.thingsboard.ThingsboardSettingsScreen
 import com.samco.trackandgraph.featurehistory.FeatureHistoryNavKey
 import com.samco.trackandgraph.featurehistory.FeatureHistoryScreen
 import com.samco.trackandgraph.functions.FunctionsNavKey
@@ -131,6 +133,10 @@ fun NavigationHost(
 
             is BackupAndRestoreNavKey -> NavEntry(destination) {
                 BackupAndRestoreScreen(destination)
+            }
+
+            is ThingsboardSettingsNavKey -> NavEntry(destination) {
+                ThingsboardSettingsScreen(destination)
             }
 
             is ViewGraphStatNavKey -> NavEntry(destination) {

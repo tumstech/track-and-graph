@@ -57,6 +57,8 @@ import com.samco.trackandgraph.releasenotes.ReleaseNotesRepository
 import com.samco.trackandgraph.releasenotes.ReleaseNotesRepositoryImpl
 import com.samco.trackandgraph.reminders.scheduling.ReminderScheduler
 import com.samco.trackandgraph.reminders.scheduling.ReminderSchedulerImpl
+import com.samco.trackandgraph.thingsboard.ThingsboardSyncInteractor
+import com.samco.trackandgraph.thingsboard.ThingsboardSyncInteractorImpl
 import com.samco.trackandgraph.versionprovider.VersionProvider
 import com.samco.trackandgraph.versionprovider.VersionProviderImpl
 import com.samco.trackandgraph.storage.PrefsPersistenceProvider
@@ -93,6 +95,11 @@ class AppModule {
     @Singleton
     //Must be singleton because it is a dependency of work manager worker
     fun getBackupRestoreInteractor(impl: BackupRestoreInteractorImpl): BackupRestoreInteractor = impl
+
+    @Provides
+    @Singleton
+    //Must be singleton because it is a dependency of work manager worker
+    fun getThingsboardSyncInteractor(impl: ThingsboardSyncInteractorImpl): ThingsboardSyncInteractor = impl
 
     @Provides
     @Singleton

@@ -29,6 +29,7 @@ data class Tracker(
     val hasDefaultValue: Boolean,
     val defaultValue: Double,
     val defaultLabel: String,
+    val thingsboardDeviceApiKey: String? = null,
     val suggestionType: TrackerSuggestionType = TrackerSuggestionType.VALUE_AND_LABEL,
     val suggestionOrder: TrackerSuggestionOrder = TrackerSuggestionOrder.VALUE_ASCENDING,
 ) : Feature {
@@ -43,6 +44,7 @@ data class Tracker(
             hasDefaultValue = twf.hasDefaultValue,
             defaultValue = twf.defaultValue,
             defaultLabel = twf.defaultLabel,
+            thingsboardDeviceApiKey = twf.thingsboardDeviceApiKey,
             suggestionType = TrackerSuggestionType.fromEntity(twf.suggestionType),
             suggestionOrder = TrackerSuggestionOrder.fromEntity(twf.suggestionOrder)
         )
@@ -55,6 +57,7 @@ data class Tracker(
         hasDefaultValue = hasDefaultValue,
         defaultValue = defaultValue,
         defaultLabel = defaultLabel,
+        thingsboardApiKey = thingsboardDeviceApiKey,
         suggestionType = suggestionType.toEntity(),
         suggestionOrder = suggestionOrder.toEntity()
     )
@@ -73,6 +76,7 @@ data class TrackerCreateRequest(
     val hasDefaultValue: Boolean = false,
     val defaultValue: Double = 0.0,
     val defaultLabel: String = "",
+    val thingsboardDeviceApiKey: String? = null,
     val suggestionType: TrackerSuggestionType = TrackerSuggestionType.VALUE_AND_LABEL,
     val suggestionOrder: TrackerSuggestionOrder = TrackerSuggestionOrder.VALUE_ASCENDING,
 )
@@ -95,6 +99,7 @@ data class TrackerUpdateRequest(
     val hasDefaultValue: Boolean? = null,
     val defaultValue: Double? = null,
     val defaultLabel: String? = null,
+    val thingsboardDeviceApiKey: String? = null,
     val suggestionType: TrackerSuggestionType? = null,
     val suggestionOrder: TrackerSuggestionOrder? = null,
     val durationNumericConversionMode: DurationNumericConversionMode? = null,

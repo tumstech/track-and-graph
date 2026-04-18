@@ -46,6 +46,9 @@ internal data class DisplayTracker(
     @ColumnInfo(name = "default_label")
     val defaultLabel: String,
 
+    @ColumnInfo(name = "thingsboard_api_key")
+    val thingsboardDeviceApiKey: String?,
+
     @ColumnInfo(name = "last_epoch_milli")
     val lastEpochMilli: Long,
 
@@ -75,5 +78,6 @@ internal data class DisplayTracker(
         description = description,
         timerStartInstant = timerStartInstant,
         unique = unique,
+        thingsboardDeviceApiKey = thingsboardDeviceApiKey
     )
 }

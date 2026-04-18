@@ -243,6 +243,10 @@ private fun AdvancedOptions(viewModel: AddTrackerViewModel) = Column {
 
             InputSpacingLarge()
 
+            DeviceApiKeyInput(viewModel)
+
+            InputSpacingLarge()
+
             Text(
                 text = stringResource(id = R.string.suggestions),
                 style = MaterialTheme.typography.titleSmall
@@ -403,6 +407,16 @@ private fun LabelInputRow(viewModel: AddTrackerViewModel) {
     LabelInputTextField(
         textFieldValue = viewModel.defaultLabel,
         onValueChange = viewModel::onDefaultLabelChanged
+    )
+}
+
+@Composable
+private fun DeviceApiKeyInput(viewModel: AddTrackerViewModel) {
+    FullWidthTextField(
+        textFieldValue = viewModel.thingsboardDeviceApiKey,
+        onValueChange = viewModel::onDeviceApiKeyChanged,
+        label = stringResource(id = R.string.thingsboard_device_api_key),
+        singleLine = true
     )
 }
 

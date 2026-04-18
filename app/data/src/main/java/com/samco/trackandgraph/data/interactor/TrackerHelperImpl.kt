@@ -124,6 +124,7 @@ internal class TrackerHelperImpl @Inject constructor(
                 hasDefaultValue = request.hasDefaultValue ?: old.hasDefaultValue,
                 defaultValue = request.defaultValue ?: old.defaultValue,
                 defaultLabel = request.defaultLabel ?: old.defaultLabel,
+                thingsboardApiKey = request.thingsboardDeviceApiKey ?: old.thingsboardDeviceApiKey,
                 suggestionType = request.suggestionType?.toEntity()
                     ?: old.suggestionType.toEntity(),
                 suggestionOrder = request.suggestionOrder?.toEntity()
@@ -284,6 +285,7 @@ internal class TrackerHelperImpl @Inject constructor(
                 hasDefaultValue = request.hasDefaultValue,
                 defaultValue = request.defaultValue,
                 defaultLabel = request.defaultLabel,
+                thingsboardApiKey = request.thingsboardDeviceApiKey,
                 suggestionType = request.suggestionType.toEntity(),
                 suggestionOrder = request.suggestionOrder.toEntity()
             )
@@ -390,6 +392,12 @@ internal class TrackerHelperImpl @Inject constructor(
                 featureId = it,
                 epochMilli = timestamp.toInstant().toEpochMilli()
             )?.toDto()
+        }
+    }
+
+    override suspend fun getLatestDataPointForTrackerSync(trackerId: Long): DataPoint? = withContext(io) {
+        dao.getTrackerById(trackerId)?.featureId?.let {
+            dao.getLatestDataPointForFeatureSync(it)?.toDto()
         }
     }
 }
